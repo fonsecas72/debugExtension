@@ -1,7 +1,7 @@
 {
-    "name": "fonsecas/debugExtension",
+    "name": "fonsecas72/debugExtension",
     "type": "behat-extension",
-    "description": "Takes screenshots for everywhere browser interaction made",
+    "description": "Takes screenshots for every browser interaction made",
     "keywords": ["debug", "screenshot"],
     "license": "MIT",
     "authors": [
