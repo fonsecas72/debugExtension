@@ -14,7 +14,7 @@ class DebugDriver extends Selenium2Driver
     public function __construct($path, $browserName, $desiredCapabilities, $wdHost)
     {
         if (!file_exists($path)) {
-            mkdir($path);
+            mkdir($path, 0777, true);
         }
         $this->debugShotsGlobalPath = $path;
 
