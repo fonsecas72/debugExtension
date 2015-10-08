@@ -35,7 +35,7 @@ class DebugListener implements EventSubscriberInterface
     public function beforeScenarioEnableDebug(ScenarioLikeTested $event)
     {
         $this->defaultSessionName = $this->mink->getDefaultSessionName();
-        if ($this->hasDebugTag($event)) {
+        if ($this->hasDebugTag($event) || $this->mink->getDefaultSessionName() === static::DEBUG_TAG) {
             $this->mink->setDefaultSessionName('debug');
             $this->mink->getSession()->getDriver()->resetCounter();
             if ($this->useScenarioFolder) {
@@ -47,6 +47,9 @@ class DebugListener implements EventSubscriberInterface
     {
         if ($this->defaultSessionName !== $this->mink->getDefaultSessionName()) {
             $this->mink->setDefaultSessionName($this->defaultSessionName);
+        }
+        if ($this->defaultSessionName === static::DEBUG_TAG){
+            $this->mink->getSession()->getDriver()->giffy();
         }
     }
 
