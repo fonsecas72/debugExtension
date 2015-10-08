@@ -14,5 +14,8 @@
         "psr-4": {
             "Fonsecas72\\DebugExtension\\": "src/"
         }
+    },
+    "require-dev": {
+        "sybio/gif-creator": "^1.0"
     }
 }
