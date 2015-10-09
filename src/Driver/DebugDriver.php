@@ -44,7 +44,7 @@ class DebugDriver extends Selenium2Driver
         $gifBinary = $gc->getGif();
         $gifFilename = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.sprintf('%03d', $this->i).'_giffied.gif';
         file_put_contents($gifFilename, $gifBinary);
-        echo PHP_EOL."| Gif captured ~> ".$gifFilename;
+        echo PHP_EOL."| Gif captured ~> ".$gifFilename.PHP_EOL;
     }
 
     public function resetCounter()
@@ -56,7 +56,7 @@ class DebugDriver extends Selenium2Driver
     {
         $this->debugScenarioShotsPath = $path;
         if (!file_exists($this->getScreenshotDestination())) {
-            mkdir($this->getScreenshotDestination());
+            mkdir($this->getScreenshotDestination(), 0777, true);
         }
     }
 
@@ -79,7 +79,7 @@ class DebugDriver extends Selenium2Driver
     {
         $screenshotFilename = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.$this->getShotName();
         file_put_contents($screenshotFilename, parent::getScreenshot());
-        echo PHP_EOL."| Screenshot captured ~> ".$screenshotFilename.PHP_EOL;
+        error_log(PHP_EOL."| Screenshot captured ~> ".$screenshotFilename.PHP_EOL);
     }
     private function highlight($xpath)
     {
