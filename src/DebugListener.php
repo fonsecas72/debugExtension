@@ -29,6 +29,7 @@ class DebugListener implements EventSubscriberInterface
             ScenarioTested::BEFORE   => array('beforeScenarioEnableDebug', 10),
             ExampleTested::BEFORE   => array('beforeScenarioEnableDebug', 10),
             ScenarioTested::AFTER  => array('afterScenarioEnableDebug', -10),
+            ExampleTested::AFTER   => array('afterScenarioEnableDebug', -10),
         );
     }
 
@@ -43,13 +44,13 @@ class DebugListener implements EventSubscriberInterface
             }
         }
     }
-    public function afterScenarioEnableDebug()
+    public function afterScenarioEnableDebug(ScenarioLikeTested $event)
     {
+        if ($this->hasDebugTag($event) || $this->defaultSessionName === static::DEBUG_TAG){
+            $this->mink->getSession()->getDriver()->giffy();
+        }
         if ($this->defaultSessionName !== $this->mink->getDefaultSessionName()) {
             $this->mink->setDefaultSessionName($this->defaultSessionName);
-        }
-        if ($this->defaultSessionName === static::DEBUG_TAG){
-            $this->mink->getSession()->getDriver()->giffy();
         }
     }
 

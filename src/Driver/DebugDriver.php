@@ -83,11 +83,7 @@ class DebugDriver extends Selenium2Driver
     }
     private function highlight($xpath)
     {
-        $parent = parent::executeJsOnXpath($xpath, 'return {{ELEMENT}}.parentElement', true);
         $elementStyle = '{{ELEMENT}}.style';
-        if ($parent !== null) {
-            $elementStyle = '{{ELEMENT}}.parentElement.style';
-        }
 
         $styles = parent::executeJsOnXpath($xpath, 'return '.$elementStyle, true);
         $myStyles = [];

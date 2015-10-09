@@ -16,6 +16,8 @@
         }
     },
     "require-dev": {
+    },
+    "require": {
         "sybio/gif-creator": "^1.0"
     }
 }

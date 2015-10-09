@@ -4,9 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "452ca820defda4788209aaec68fa6acc",
-    "packages": [],
-    "packages-dev": [
+    "hash": "51c6196b240a62acf8360a76184303fa",
+    "packages": [
         {
             "name": "sybio/gif-creator",
             "version": "1.0.0",
@@ -53,6 +52,7 @@
             "time": "2012-10-13 09:04:46"
         }
     ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
