@@ -31,8 +31,8 @@ class DebugDriver extends Selenium2Driver
             }
             $frames[] = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.$this->getSerializedName($this->i, $index);
 
-            if ($this->c === $index) {
-                $durations[] = 100;
+            if ($this->c - 1 === $index) {
+                $durations[] = 150;
                 continue;
             }
             $durations[] = 30;
@@ -44,7 +44,7 @@ class DebugDriver extends Selenium2Driver
         $gifBinary = $gc->getGif();
         $gifFilename = $this->getScreenshotDestination().DIRECTORY_SEPARATOR.sprintf('%03d', $this->i).'_giffied.gif';
         file_put_contents($gifFilename, $gifBinary);
-        echo PHP_EOL."| Gif captured ~> ".$gifFilename.PHP_EOL;
+        echo "| Gif captured ~> ".$gifFilename.PHP_EOL.PHP_EOL;
     }
 
     public function resetCounter()
@@ -83,22 +83,36 @@ class DebugDriver extends Selenium2Driver
     }
     private function highlight($xpath)
     {
-        $elementStyle = '{{ELEMENT}}.style';
+        $oldStylesList = $this->getElementStyleArray($xpath);
+        $this->addStylesToElement($xpath, [
+            'outline' => '1px solid rgb(136, 255, 136)',
+            'backgroundColor' => 'yellow',
+        ]);
 
-        $styles = parent::executeJsOnXpath($xpath, 'return '.$elementStyle, true);
-        $myStyles = [];
-        foreach ($styles as $value) {
-            $myStyles[$value] = parent::executeJsOnXpath($xpath, 'return '.$elementStyle.'.'.$value, true);
-        }
-
-        parent::executeJsOnXpath($xpath, $elementStyle.' = "background-color: yellow; outline: 1px solid rgb(136, 255, 136)";', true);
         $this->saveScreenshot();
-        if (empty($myStyles)) {
-            parent::executeJsOnXpath($xpath, $elementStyle.' = null;', true);
-            return;
+        $this->resetStyle($xpath, $oldStylesList);
+    }
+    private function getElementStyleArray($xpath)
+    {
+        $currentStyles = parent::executeJsOnXpath($xpath, 'return {{ELEMENT}}.style', true);
+
+        $oldStyles = [];
+        foreach ($currentStyles as $value) {
+            $oldStyles[$value] = parent::executeJsOnXpath($xpath, 'return {{ELEMENT}}.style.'.$value, true);
         }
-        foreach ($myStyles as $style => $value) {
-            parent::executeJsOnXpath($xpath, $elementStyle.'.'.$style.' = '.$value.';', true);
+        return $oldStyles;
+    }
+
+    private function resetStyle($xpath, $oldStyles)
+    {
+        parent::executeJsOnXpath($xpath, '{{ELEMENT}}.style = null;', true);
+        $this->addStylesToElement($xpath, $oldStyles);
+    }
+
+    private function addStylesToElement($xpath, $styles)
+    {
+        foreach ($styles as $style => $value) {
+            parent::executeJsOnXpath($xpath, '{{ELEMENT}}.style.'.$style.' = "'.$value.'";', true);
         }
     }
 
