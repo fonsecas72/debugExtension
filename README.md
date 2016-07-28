@@ -1,4 +1,4 @@
-# Giffy - debugExtension
+# Giffy - debugExtension deprecated use fonsecas72/behat-giffy-extension instead
 
 This is a behat extension/driver that will save screenshots in each interaction with the browser.
 Just enable it (add it to your session group) and add a `@debug` tag to your feature/scenario and your done.
